@@ -1,0 +1,429 @@
+{
+  "Bash Logging Config": {
+    "prefix": "blog-config",
+    "body": [
+      "# ============================================================================",
+      "# Configuration",
+      "# ============================================================================",
+      "",
+      "VERBOSE=\"\\${VERBOSE:-1}\"  # 0=quiet, 1=normal, 2=debug",
+      "LOG_FILE=\"\\${LOG_FILE:-}\"",
+      "USE_GUM=0",
+      "command -v gum &>/dev/null && USE_GUM=1",
+      "",
+      "# Track failures and warnings",
+      "FAILED_STEPS=()",
+      "WARNINGS=()",
+      "",
+      "# Color definitions for fallback (if gum not available)",
+      "RED='\\033[0;31m'",
+      "GREEN='\\033[0;32m'",
+      "YELLOW='\\033[1;33m'",
+      "BLUE='\\033[0;34m'",
+      "NC='\\033[0m'",
+      ""
+    ],
+    "description": "Bash logging configuration block"
+  },
+  "Bash Tracking Arrays": {
+    "prefix": "blog-track",
+    "body": [
+      "# Track failures and warnings",
+      "FAILED_STEPS=()",
+      "WARNINGS=()",
+      ""
+    ],
+    "description": "Arrays for tracking failures and warnings"
+  },
+  "Bash Log Helper": {
+    "prefix": "blog-helper",
+    "body": [
+      "_log_to_file() {",
+      "    [[ -n \"\\$LOG_FILE\" ]] && echo \"\\$(date '+%Y-%m-%d %H:%M:%S') \\$*\" >> \"\\$LOG_FILE\"",
+      "}",
+      ""
+    ],
+    "description": "Helper function for file logging"
+  },
+  "Bash Style Header": {
+    "prefix": "blog-style-header",
+    "body": [
+      "style_header() {",
+      "    if [[ \\$USE_GUM -eq 1 ]]; then",
+      "        gum style \\",
+      "            --border double \\",
+      "            --border-foreground 12 \\",
+      "            --padding \"2 4\" \\",
+      "            --margin \"1 0\" \\",
+      "            --align center \\",
+      "            \"\\$@\"",
+      "    else",
+      "        echo -e \"\\n\\${BLUE}╔══════════════════════════════════════╗\\${NC}\"",
+      "        echo -e \"\\${BLUE}║\\${NC}  \\$*  \\${BLUE}║\\${NC}\"",
+      "        echo -e \"\\${BLUE}╚══════════════════════════════════════╝\\${NC}\\n\"",
+      "    fi",
+      "}",
+      ""
+    ],
+    "description": "Style preset for headers"
+  },
+  "Bash Style Step": {
+    "prefix": "blog-style-step",
+    "body": [
+      "style_step() {",
+      "    if [[ \\$USE_GUM -eq 1 ]]; then",
+      "        gum style \\",
+      "            --border double \\",
+      "            --border-foreground 12 \\",
+      "            --padding \"1 2\" \\",
+      "            --margin \"1 0\" \\",
+      "            \"\\$@\"",
+      "    else",
+      "        echo -e \"\\n\\${BLUE}═══\\${NC} \\$* \\${BLUE}═══\\${NC}\\n\"",
+      "    fi",
+      "}",
+      ""
+    ],
+    "description": "Style preset for steps"
+  },
+  "Bash Style Success": {
+    "prefix": "blog-style-success",
+    "body": [
+      "style_success() {",
+      "    if [[ \\$USE_GUM -eq 1 ]]; then",
+      "        gum style \\",
+      "            --border double \\",
+      "            --border-foreground 10 \\",
+      "            --padding \"1 2\" \\",
+      "            --margin \"1 0\" \\",
+      "            \"\\$@\"",
+      "    else",
+      "        echo -e \"\\n\\${GREEN}✓ \\$*\\${NC}\\n\"",
+      "    fi",
+      "}",
+      ""
+    ],
+    "description": "Style preset for success messages"
+  },
+  "Bash Style Warning": {
+    "prefix": "blog-style-warning",
+    "body": [
+      "style_warning() {",
+      "    if [[ \\$USE_GUM -eq 1 ]]; then",
+      "        gum style \\",
+      "            --border double \\",
+      "            --border-foreground 11 \\",
+      "            --padding \"1 2\" \\",
+      "            --margin \"1 0\" \\",
+      "            \"\\$@\"",
+      "    else",
+      "        echo -e \"\\n\\${YELLOW}⚠ \\$*\\${NC}\\n\"",
+      "    fi",
+      "}",
+      ""
+    ],
+    "description": "Style preset for warnings"
+  },
+  "Bash Style Error": {
+    "prefix": "blog-style-error",
+    "body": [
+      "style_error() {",
+      "    if [[ \\$USE_GUM -eq 1 ]]; then",
+      "        gum style \\",
+      "            --border double \\",
+      "            --border-foreground 9 \\",
+      "            --padding \"1 2\" \\",
+      "            --margin \"1 0\" \\",
+      "            \"\\$@\"",
+      "    else",
+      "        echo -e \"\\n\\${RED}✗ \\$*\\${NC}\\n\"",
+      "    fi",
+      "}",
+      ""
+    ],
+    "description": "Style preset for errors"
+  },
+  "Bash Log Info": {
+    "prefix": "blog-info",
+    "body": [
+      "log_info() {",
+      "    [[ \\$VERBOSE -lt 1 ]] && return 0",
+      "    _log_to_file \"[INFO] \\$*\"",
+      "    if [[ \\$USE_GUM -eq 1 ]]; then",
+      "        gum style --foreground 12 \"\\$@\"",
+      "    else",
+      "        echo -e \"\\${BLUE}[INFO]\\${NC} \\$*\"",
+      "    fi",
+      "}",
+      ""
+    ],
+    "description": "Info logging function"
+  },
+  "Bash Log Success": {
+    "prefix": "blog-success",
+    "body": [
+      "log_success() {",
+      "    [[ \\$VERBOSE -lt 1 ]] && return 0",
+      "    _log_to_file \"[SUCCESS] \\$*\"",
+      "    if [[ \\$USE_GUM -eq 1 ]]; then",
+      "        gum style --foreground 10 \"✓ \\$*\"",
+      "    else",
+      "        echo -e \"\\${GREEN}[✓]\\${NC} \\$*\"",
+      "    fi",
+      "}",
+      ""
+    ],
+    "description": "Success logging function"
+  },
+  "Bash Log Warn": {
+    "prefix": "blog-warn",
+    "body": [
+      "log_warn() {",
+      "    [[ \\$VERBOSE -lt 1 ]] && return 0",
+      "    _log_to_file \"[WARN] \\$*\"",
+      "    if [[ \\$USE_GUM -eq 1 ]]; then",
+      "        gum style --foreground 11 \"⚠ \\$*\"",
+      "    else",
+      "        echo -e \"\\${YELLOW}[⚠]\\${NC} \\$*\"",
+      "    fi",
+      "}",
+      ""
+    ],
+    "description": "Warning logging function"
+  },
+  "Bash Log Error": {
+    "prefix": "blog-error",
+    "body": [
+      "log_error() {",
+      "    _log_to_file \"[ERROR] \\$*\"",
+      "    if [[ \\$USE_GUM -eq 1 ]]; then",
+      "        gum style --foreground 9 \"✗ \\$*\"",
+      "    else",
+      "        echo -e \"\\${RED}[✗]\\${NC} \\$*\"",
+      "    fi",
+      "}",
+      ""
+    ],
+    "description": "Error logging function"
+  },
+  "Bash Log Debug": {
+    "prefix": "blog-debug",
+    "body": [
+      "log_debug() {",
+      "    [[ \\$VERBOSE -lt 2 ]] && return 0",
+      "    _log_to_file \"[DEBUG] \\$*\"",
+      "    if [[ \\$USE_GUM -eq 1 ]]; then",
+      "        gum style --foreground 8 --faint \"[DEBUG] \\$*\"",
+      "    else",
+      "        echo -e \"\\033[2m[DEBUG] \\$*\\${NC}\"",
+      "    fi",
+      "}",
+      ""
+    ],
+    "description": "Debug logging function"
+  },
+  "Bash Log Step": {
+    "prefix": "blog-step",
+    "body": [
+      "log_step() {",
+      "    [[ \\$VERBOSE -lt 1 ]] && return 0",
+      "    _log_to_file \"[STEP] \\$*\"",
+      "    style_step \"\\$@\"",
+      "}",
+      ""
+    ],
+    "description": "Step logging function"
+  },
+  "Bash Confirm": {
+    "prefix": "blog-confirm",
+    "body": [
+      "confirm() {",
+      "    if [[ \\$USE_GUM -eq 1 ]]; then",
+      "        gum confirm \"\\$@\"",
+      "    else",
+      "        read -p \"\\$* (y/N) \" -n 1 -r",
+      "        echo",
+      "        [[ \\$REPLY =~ ^[Yy]\\$ ]]",
+      "    fi",
+      "}",
+      ""
+    ],
+    "description": "Confirm prompt function"
+  },
+  "Bash With Spinner": {
+    "prefix": "blog-spinner",
+    "body": [
+      "with_spinner() {",
+      "    local msg=\"\\$1\"",
+      "    shift",
+      "    if [[ \\$USE_GUM -eq 1 ]]; then",
+      "        gum spin --spinner dot --title \"\\$msg\" -- \"\\$@\"",
+      "    else",
+      "        log_info \"\\$msg\"",
+      "        \"\\$@\"",
+      "    fi",
+      "}",
+      ""
+    ],
+    "description": "Execute command with spinner"
+  },
+  "Bash Show Summary": {
+    "prefix": "blog-summary",
+    "body": [
+      "show_summary() {",
+      "    echo \"\"",
+      "    if [[ \\${#FAILED_STEPS[@]} -eq 0 ]] && [[ \\${#WARNINGS[@]} -eq 0 ]]; then",
+      "        style_success \"All operations completed successfully\"",
+      "    else",
+      "        style_warning \"⚠ There were issues during execution\"",
+      "",
+      "        if [[ \\${#FAILED_STEPS[@]} -gt 0 ]]; then",
+      "            echo \"\"",
+      "            log_error \"Failed steps:\"",
+      "            for step in \"\\${FAILED_STEPS[@]}\"; do",
+      "                echo \"  - \\$step\"",
+      "            done",
+      "        fi",
+      "",
+      "        if [[ \\${#WARNINGS[@]} -gt 0 ]]; then",
+      "            echo \"\"",
+      "            log_warn \"Warnings:\"",
+      "            for warning in \"\\${WARNINGS[@]}\"; do",
+      "                echo \"  - \\$warning\"",
+      "            done",
+      "        fi",
+      "    fi",
+      "}",
+      ""
+    ],
+    "description": "Display summary of operations"
+  },
+  "Bash Use Header": {
+    "prefix": "use-header",
+    "body": [
+      "style_header \"${1:Title}\"",
+      ""
+    ],
+    "description": "Use header style"
+  },
+  "Bash Use Step": {
+    "prefix": "use-step",
+    "body": [
+      "style_step \"${1:Step description}\"",
+      ""
+    ],
+    "description": "Use step style"
+  },
+  "Bash Use Confirm": {
+    "prefix": "use-confirm",
+    "body": [
+      "if ! confirm \"${1:Proceed with operation?}\"; then",
+      "    log_info \"${2:Operation aborted}\"",
+      "    exit 0",
+      "fi",
+      ""
+    ],
+    "description": "Use confirm with abort"
+  },
+  "Bash Track Failure": {
+    "prefix": "track-fail",
+    "body": [
+      "FAILED_STEPS+=(\"${1:step description}\")",
+      ""
+    ],
+    "description": "Add to failed steps"
+  },
+  "Bash Track Warning": {
+    "prefix": "track-warn",
+    "body": [
+      "WARNINGS+=(\"${1:warning description}\")",
+      ""
+    ],
+    "description": "Add to warnings"
+  },
+  "Bash Full Logging Setup": {
+    "prefix": "blog-full",
+    "body": [
+      "# ============================================================================",
+      "# Configuration",
+      "# ============================================================================",
+      "",
+      "VERBOSE=\"\\${VERBOSE:-1}\"",
+      "LOG_FILE=\"\\${LOG_FILE:-}\"",
+      "USE_GUM=0",
+      "command -v gum &>/dev/null && USE_GUM=1",
+      "",
+      "FAILED_STEPS=()",
+      "WARNINGS=()",
+      "",
+      "RED='\\033[0;31m'",
+      "GREEN='\\033[0;32m'",
+      "YELLOW='\\033[1;33m'",
+      "BLUE='\\033[0;34m'",
+      "NC='\\033[0m'",
+      "",
+      "# ============================================================================",
+      "# Helpers",
+      "# ============================================================================",
+      "",
+      "_log_to_file() {",
+      "    [[ -n \"\\$LOG_FILE\" ]] && echo \"\\$(date '+%Y-%m-%d %H:%M:%S') \\$*\" >> \"\\$LOG_FILE\"",
+      "}",
+      "",
+      "# ============================================================================",
+      "# Logging",
+      "# ============================================================================",
+      "",
+      "log_info() {",
+      "    [[ \\$VERBOSE -lt 1 ]] && return 0",
+      "    _log_to_file \"[INFO] \\$*\"",
+      "    if [[ \\$USE_GUM -eq 1 ]]; then",
+      "        gum style --foreground 12 \"\\$@\"",
+      "    else",
+      "        echo -e \"\\${BLUE}[INFO]\\${NC} \\$*\"",
+      "    fi",
+      "}",
+      "",
+      "log_success() {",
+      "    [[ \\$VERBOSE -lt 1 ]] && return 0",
+      "    _log_to_file \"[SUCCESS] \\$*\"",
+      "    if [[ \\$USE_GUM -eq 1 ]]; then",
+      "        gum style --foreground 10 \"✓ \\$*\"",
+      "    else",
+      "        echo -e \"\\${GREEN}[✓]\\${NC} \\$*\"",
+      "    fi",
+      "}",
+      "",
+      "log_warn() {",
+      "    [[ \\$VERBOSE -lt 1 ]] && return 0",
+      "    _log_to_file \"[WARN] \\$*\"",
+      "    if [[ \\$USE_GUM -eq 1 ]]; then",
+      "        gum style --foreground 11 \"⚠ \\$*\"",
+      "    else",
+      "        echo -e \"\\${YELLOW}[⚠]\\${NC} \\$*\"",
+      "    fi",
+      "}",
+      "",
+      "log_error() {",
+      "    _log_to_file \"[ERROR] \\$*\"",
+      "    if [[ \\$USE_GUM -eq 1 ]]; then",
+      "        gum style --foreground 9 \"✗ \\$*\"",
+      "    else",
+      "        echo -e \"\\${RED}[✗]\\${NC} \\$*\"",
+      "    fi",
+      "}",
+      "",
+      "confirm() {",
+      "    if [[ \\$USE_GUM -eq 1 ]]; then",
+      "        gum confirm \"\\$@\"",
+      "    else",
+      "        read -p \"\\$* (y/N) \" -n 1 -r",
+      "        echo",
+      "        [[ \\$REPLY =~ ^[Yy]\\$ ]]",
+      "    fi",
+      "}",
+      ""
+    ],
+    "description": "Complete logging setup with essential functions"
+  }
+}

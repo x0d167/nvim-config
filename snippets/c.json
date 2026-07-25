@@ -1,0 +1,28 @@
+{
+  "CPE 2073 Header": {
+    "prefix": "cpehead",
+    "body": [
+      "///////////////////////////////////////////////////////////////",
+      "//",
+      "// CPE 2073",
+      "//",
+      "// Homework ${1:1}",
+      "//",
+      "// I certify that the code below is my own work.",
+      "// Name: Agrippa Ikoku ID: jvn868",
+      "",
+      "#ifndef _CRT_SECURE_NO_WARNINGS",
+      "#define _CRT_SECURE_NO_WARNINGS",
+      "#endif // _CRT_SECURE_NO_WARNINGS",
+      "",
+      "#include <stdio.h>",
+      "#include <math.h>",
+      "",
+      "int main() {",
+      "    $0",
+      "    return 0;",
+      "}"
+    ],
+    "description": "Standard CPE 2073 Course Boilerplate"
+  }
+}
