@@ -27,7 +27,7 @@ vim.opt.fillchars = { -- UI characters for folds, end-of-buffer, diffs, etc.
 	eob = " ",
 }
 vim.opt.foldlevel = 99 -- Open most folds by default
-vim.opt.formatexpr = "v:lua.require'lazyvim.util'.format.formatexpr()" -- Custom format expression for LSP
+vim.opt.formatexpr = "v:lua.require'conform'.format.formatexpr()" -- Custom format expression for LSP
 vim.opt.formatoptions = "jcroqlnt" -- Better formatting: comments, lists, auto-wrap, etc.
 vim.opt.grepformat = "%f:%l:%c:%m" -- Format for grep-like output (used by :grep)
 vim.opt.grepprg = "rg --vimgrep" -- Use ripgrep for :grep
@@ -64,12 +64,12 @@ vim.opt.winminwidth = 5 -- Minimum width of a split window
 
 -- Fold handling depends on Neovim version
 if vim.fn.has("nvim-0.10") == 1 then
-	vim.opt.foldexpr = "v:lua.require'lazyvim.util'.ui.foldexpr()" -- Expression for folding
-	vim.opt.foldmethod = "expr" -- Use foldexpr() for folding
+	vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- Expression for folding
+	vim.opt.foldmethod = "expr" -- Use foldtextpr() for folding
 	vim.opt.foldtext = "" -- Use default fold text
 else
 	vim.opt.foldmethod = "indent" -- Fold based on indentation
-	vim.opt.foldtext = "v:lua.require'lazyvim.util'.ui.foldtext()" -- Custom fold display
+	vim.opt.foldtext = "" -- Custom fold display
 end
 
 -- Optional or disabled settings
