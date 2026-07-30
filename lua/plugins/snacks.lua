@@ -12,7 +12,15 @@ local opts = {
 	dim = { enabled = true },
 	explorer = { enabled = true },
 	image = { enabled = true },
-	indent = { enabled = true },
+	indent = {
+		enabled = true,
+		only_scope = true,
+		only_current = true,
+		chunk = {
+			enabled = true,
+			only_current = true,
+		},
+	},
 	notifier = {
 		enabled = true,
 		timeout = 10000,
