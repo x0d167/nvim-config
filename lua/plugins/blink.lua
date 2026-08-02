@@ -25,16 +25,8 @@ vim.api.nvim_create_autocmd("InsertEnter", {
 			},
 			sources = {
 				default = { "lsp", "path", "snippets", "buffer" },
-				per_filetype = {
-					org = { "orgmode" },
-				},
-				providers = {
-					orgmode = {
-						name = "Orgmode",
-						module = "orgmode.org.autocompletion.blink",
-						fallbacks = { "buffer" },
-					},
-				},
+				per_filetype = {},
+				providers = {},
 			},
 			fuzzy = { implementation = "prefer_rust_with_warning" },
 		})
