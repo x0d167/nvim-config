@@ -7,6 +7,7 @@ vim.pack.add({
 	"https://github.com/romgrk/barbar.nvim",
 	"https://github.com/nvim-mini/mini.align",
 	"https://github.com/nvim-tree/nvim-web-devicons",
+	"https://github.com/Olical/conjure",
 })
 
 require("nvim-autopairs").setup({

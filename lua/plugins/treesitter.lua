@@ -44,6 +44,8 @@ require("nvim-treesitter").install({
 	"proto",
 	"python",
 	"query",
+	"racket",
+	"scheme",
 	"regex",
 	"rust",
 	"scss",
